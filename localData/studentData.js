@@ -1,4 +1,4 @@
-const data = [
+const students = [
   {
     name: "Ido",
     surName: "Arbel",
@@ -40,3 +40,4 @@ const data = [
     courses: ["Java", "Law"],
   },
 ];
+export default students;
