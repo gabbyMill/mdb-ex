@@ -1,21 +1,46 @@
 import express from "express";
-import fns from "date-fns";
 const router = express.Router();
-import Student from "../models/studentModel.js";
+import { Student, User } from "../models/studentModel.js";
 
 (async () => {
-  const x = await Student.find({ name: /[hy]/ });
-  console.log(x);
+  await User.create({
+    username: "ScumbagSteve",
+    full_name: {
+      first: "Scumbag",
+      last: "Steve",
+    },
+  });
+  const all = await User.find({});
+  console.log(all);
   return;
 })();
 
+// Relationships:
+// Using  { strict: false } When assigning Schema
+// #1 await User.create({
+//   username: "GoodGuyGreg",
+//   first_name: "Good Guy",
+//   last_name: "Greg",
+// });
+// #2 await User.create({
+//   username: "ScumbagSteve",
+//   full_name: {
+//     first: "Scumbag",
+//     last: "Steve",
+//   },
+// });
+
+// Delete:
+// deleteOne({ name: "Ido" })
+// deleteOne({ birth: new Date(1998, 3, 2) })
+
 // Text Search:
-// ({ name: /o/i }); case insensitive
-// ({ $or: [{ name: /h/i }, { name: /y/i }] })
+// find.({ name: /o/i }); case insensitive
+// find.({ $or: [{ name: /h/i }, { name: /y/i }] })
 
 // Update:
-// ({ name: "Yahalom" }, { $push: { courses: "JavaScript" } })
-// ({ name: "Koren" }, { birth: " 02/12/1998" });
+// update({ name: "Yahalom" }, { $push: { courses: "JavaScript" } })
+// update({ name: "Koren" }, { birth: " 02/12/1998" });
 
 // Queries:
 // Birth { birth: { $gt: "05/05/1998" } }
