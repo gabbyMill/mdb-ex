@@ -1,10 +1,25 @@
 import express from "express";
 import fns from "date-fns";
-// const x = fns.isBefore("11-11-2021", "12-11-2021");
-// console.log(x);
-// (new Date(1986, 6, 10), new Date(1987, 1, 11));
 const router = express.Router();
 import Student from "../models/studentModel.js";
+
+(async () => {
+  const x = await Student.find({ name: /[hy]/ });
+  console.log(x);
+  return;
+})();
+
+// Text Search:
+// ({ name: /o/i }); case insensitive
+// ({ $or: [{ name: /h/i }, { name: /y/i }] })
+
+// Update:
+// ({ name: "Yahalom" }, { $push: { courses: "JavaScript" } })
+// ({ name: "Koren" }, { birth: " 02/12/1998" });
+
+// Queries:
+// Birth { birth: { $gt: "05/05/1998" } }
+// 054({ phone: { $regex: /^054/, $options: "m" } }); // Not Working ?
 
 // gets all students
 router.get("/", async (req, res, next) => {
@@ -45,18 +60,18 @@ router.get("/birth", async (req, res, next) => {
   console.log("birth");
   const compDate = new Date(1998, 5, 5);
   try {
-    const students = await Student.find({});
-    const youngerOnes = students.map(obj => {
-      console.log(compDate);
-      // const x = fns.parseISO(new Date(obj.birth));
-      // console.log(x);
-      // console.log(fns.isBefore(compDate, makeDate(obj.birth)));
-      // if (fns.isBefore(compDate, makeDate(obj.birth))) {
-      //   return obj;
-      // }
-    });
-    console.log(`Successfully Found ${youngerOnes}`);
-    res.json(youngerOnes);
+    const students = await Student.find({ birth: { $gt: "05/05/1998" } }); // not working
+    // const youngerOnes = students.map(obj => {
+    //   console.log(compDate);
+    // const x = fns.parseISO(new Date(obj.birth));
+    // console.log(x);
+    // console.log(fns.isBefore(compDate, makeDate(obj.birth)));
+    // if (fns.isBefore(compDate, makeDate(obj.birth))) {
+    //   return obj;
+    // }
+    // });
+    console.log(`Successfully Found ${students}`);
+    res.json(students);
   } catch (error) {
     next(error);
   }
@@ -67,19 +82,9 @@ router.get("/054", async (req, res, next) => {
     // const students = await Student.find({
     //   $where: this.phone.slice(0, 2) === "54",
     // });
-    const students = await Student.find({
-      $expr: {
-        $function: {
-          body: function (phone) {
-            console.log(phone);
-            return;
-          },
-          args: ["$phone"],
-          lang: "js",
-        },
-      },
-    });
-    console.log(`Successfully Found ${students}`);
+    const students = await Student.find({ phone: /^054/ }); // not working
+
+    console.log(students);
     res.json(youngerOnes);
   } catch (error) {
     next(error);
@@ -103,17 +108,17 @@ router.get("/:name", async (req, res, next) => {
 });
 
 // Only activated once to post to db
-// import students from "../localData/studentData.js";
-// router.post("/", async (req, res, next) => {
-//   const studentArr = students.map(obj => Student(obj));
-//   try {
-//     await Student.insertMany(studentArr);
-//     console.log("Data Inserted");
-//     res.json(studentArr);
-//   } catch (err) {
-//     next(err);
-//   }
-// });
+import students from "../localData/studentData.js";
+router.post("/", async (req, res, next) => {
+  const studentArr = students.map(obj => Student(obj));
+  try {
+    await Student.insertMany(studentArr);
+    console.log("Data Inserted");
+    res.json(studentArr);
+  } catch (err) {
+    next(err);
+  }
+});
 
 export default router;
 
