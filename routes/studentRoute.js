@@ -15,7 +15,86 @@ import { Student, User } from "../models/studentModel.js";
   return;
 })();
 
+// Bonus:
+
+// Querying related collections:
+// db.users.find({});
+// db.posts.find({});
+// db.posts.find({ username: "GoodGuyGreg" });
+// db.posts.find({ username: "ScumbagSteve" });
+// db.comments({});
+// db.comments.find({ username: "GoodGuyGreg" });
+// db.comments.find({ username: "ScumbagSteve" });
+// db.comments.find({ post: "618faa773ee86161db8b63f8" });
+
 // Relationships:
+// Posts:
+// db.comments.insertMany([
+//   {
+//     username: "GoodGuyGreg",
+//     comment: "Hope you got a good deal!",
+//     post: "618e5143ba4dd92cd88603eb",
+//   },
+//   {
+//     username: "GoodGuyGreg",
+//     comment: "What's mine is yours!",
+//     post: "618e5143ba4dd92cd88603ec",
+//   },
+//   {
+//     username: "GoodGuyGreg",
+//     comment: "Don't violate the licensing agreement!",
+//     post: "618e5143ba4dd92cd88603ed",
+//   },
+//   {
+//     username: "ScumbagSteve",
+//     comment: "It still isn't clean",
+//     post: "618e5143ba4dd92cd88603e8",
+//   },
+//   {
+//     username: "ScumbagSteve",
+//     comment: "Denied your PR cause I found a hack",
+//     post: "618e5143ba4dd92cd88603ea",
+//   },
+// ]);
+// db.posts.insertMany([
+//   {
+//     username: "GoodGuyGreg",
+//     title: "Passes out at party",
+//     body: "Wakes up early and cleans house",
+//   },
+//   {
+//     username: "GoodGuyGreg",
+//     title: "Steals your identity",
+//     body: "Raises your credit score",
+//   },
+
+//   {
+//     username: "GoodGuyGreg",
+//     title: "Reports a bug in your code",
+//     body: "Sends you a Pull Request",
+//   },
+
+//   {
+//     username: "ScumbagSteve",
+//     title: "Borrows something",
+//     body: "Sells it",
+//   },
+
+//   {
+//     username: "ScumbagSteve",
+//     title: "Borrows everything",
+//     body: "The end",
+//   },
+
+//   {
+//     username: "ScumbagSteve",
+//     title: "Forks your repo on github",
+//     body: "Sets to private",
+//   },
+// ]);
+
+// Users:
+
 // Using  { strict: false } When assigning Schema
 // #1 await User.create({
 //   username: "GoodGuyGreg",

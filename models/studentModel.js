@@ -21,7 +21,5 @@ studentSchema.set("toJSON", {
 
 const LooseSchema = mongoose.Schema({}, { strict: false });
 const User = mongoose.model("User", LooseSchema);
-const user = new User({ iAmNotInTheSchema: true });
-// User.save(); // iAmNotInTheSchema is now saved to the db!!
 
 export { Student, User };
